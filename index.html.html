@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>M>2 | Cyber News Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- التنسيقات الخيالية الفخمة مدمجة بالكامل -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #030712;
+            color: #f3f4f6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* شريط الأخبار العاجلة المتحرك (News Ticker) */
+        .news-ticker {
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            color: #030712;
+            padding: 10px 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .ticker-label {
+            background: #030712;
+            color: #00f2fe;
+            padding: 10px 25px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        marquee {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        /* شريط التنقل الرئيسي */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(11, 15, 25, 0.9);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #00f2fe;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #00f2fe;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        /* القسم الرئيسي للأخبار */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #00f2fe;
+            padding-left: 15px;
+        }
+
+        /* شبكة عرض الأخبار (Grid) */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* بطاقة الخبر الفاخرة (Glassmorphism Card) */
+        .news-card {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            border-color: #00f2fe;
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.25);
+        }
+
+        .card-img {
+            height: 180px;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #00f2fe;
+            position: relative;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 242, 254, 0.2);
+            color: #00f2fe;
+            padding: 5px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .card-content p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+        }
+
+        /* تصميم الجوال */
+        @media(max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط الأخبار المتحرك العاجل -->
+    <div class="news-ticker">
+        <div class="ticker-label">
+            <i class="fas fa-bolt"></i> Live News
+        </div>
+        <marquee behavior="scroll" direction="right" scrollamount="5" onmouseover="this.stop()" onmouseout="this.start()">
+            🚀 M>2 Portal is now live with futuristic designs • 🔥 Breaking news: Advanced AI breakthroughs reshape modern software development • ⚡ Stay tuned for exclusive daily updates and tech reports!
+        </marquee>
+    </div>
+
+    <!-- شريط التنقل -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-satellite-dish"></i> M>2
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#"><i class="fas fa-globe"></i> World</a></li>
+            <li><a href="#"><i class="fas fa-microchip"></i> Technology</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Markets</a></li>
+        </ul>
+    </header>
+
+    <!-- المحتوى والأخبار -->
+    <main class="main-container">
+        <h2 class="section-title"><i class="fas fa-fire"></i> Latest News Feed</h2>
+
+        <div class="news-grid">
+            <!-- خبر 1 -->
+            <article class="news-card">
+                <div class="card-img">
+                    <span class="card-badge">Technology</span>
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="card-content">
+                    <h3>The Future of Next-Gen Web Design & Cyber Aesthetics</h3>
+                    <p>Discover how modern glassmorphism and neon glows are taking user interfaces to unprecedented dimensions of luxury.</p>
+                    <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </article>
+
+            <!-- خبر 2 -->
+            <article class="news-card">
+                <div class="card-img">
+                    <span class="card-badge">Innovation</span>
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Artificial Intelligence Revolutionizing Mobile Apps</h3>
+                    <p>Developers worldwide are leveraging intelligent backends and clean architectures to build lightning-fast digital solutions.</p>
+                    <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </article>
+
+            <!-- خبر 3 -->
+            <article class="news-card">
+                <div class="card-img">
+                    <span class="card-badge">Global News</span>
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Global Tech Summit Announces Breakthrough Protocols</h3>
+                    <p>Leaders gather to define the standards of seamless cross-platform deployment and high-performance cloud hosting.</p>
+                    <a href="#" class="read-more">Read Full Story <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+</body>
+</html>
